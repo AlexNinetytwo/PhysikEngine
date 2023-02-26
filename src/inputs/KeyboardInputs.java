@@ -24,9 +24,10 @@ public class KeyboardInputs implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-		
+			System.out.println("Space");
 			simPanel.getSim().getEntities(0).jump();
 			simPanel.getSim().getEntities(1).jump();
+			simPanel.getSim().getEntities(2).jump();
 		}
 	}
 

@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import entities.Ball;
 import entities.Entity;
+import entities.Triangle;
 import utilz.LoadSave;
 
 
@@ -19,7 +20,7 @@ public class Simulation implements Runnable{
 	private final int FPS_SET = 60;
 	private final int UPS_SET = 120;
 
-	public static final float WINSCALE = 0.8F;
+	public static final float WINSCALE = 0.5F;
 	public static final int SIM_WIDTH = (int) (1920 * WINSCALE);
 	public static final int SIM_HEIGHT = (int) (1080 * WINSCALE);
 	
@@ -40,12 +41,14 @@ public class Simulation implements Runnable{
 	// Initialize
 		
 	private void initClasses() {
-							//float x, float y, float width, float height, float drag, float bounce
-		Ball ball = new Ball(   500,      100,        30,          30,          0,            70);
-		Ball bigBall = new Ball(   600,      100,        60,          60,          0,            50);
-		entities = new Entity[2];
+									//float x, float y, float width, float height, float drag, float bounce
+		Ball ball = new Ball(     		 500,      100,        30,          30,          0,            70);
+		Ball bigBall = new Ball(  		 600,      100,        60,          60,          0,            50);
+		Triangle triangle = new Triangle(500,      800,        60,          60,          100,            0);
+		entities = new Entity[3];
 		entities[0] = ball;
 		entities[1] = bigBall;
+		entities[2] = triangle;
 	}
 	
 	
@@ -73,7 +76,7 @@ public class Simulation implements Runnable{
 	
 	public void render(Graphics g) {
 		for (int i = 0; i < entities.length; i++) {
-			entities[i].draw(g);
+			entities[i].draw(g, WINSCALE);
 		}
 	}
 	

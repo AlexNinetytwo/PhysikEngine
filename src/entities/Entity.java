@@ -17,21 +17,21 @@ public abstract class Entity {
 		this.height = height;
 		this.drag = drag;
 		this.bounce = bounce;
-		geoToOrigin();
+		this.originX = this.width / 2;
+		this.originY = this.height / 2;
 	}
+		
 	
 	public void update(float gravity) {
+		polyCords();
 		fallDown(gravity);
 		collision();
 		checkBouncing();
 		stopBouncing();
-		geoToOrigin();
 	}
 	
-	private void geoToOrigin() {
-		this.originX = (int) (this.x - this.width / 2);
-		this.originY = (int) (this.y - this.height / 2);
-	}
+	
+	protected abstract void polyCords();
 	
 	private void stopBouncing() {
 		if (Math.abs(fallTime) < 0.25 && this.y > 795) {
@@ -43,7 +43,7 @@ public abstract class Entity {
 
 	private void fallDown(float gravity) {
 		this.y += gravity * fallTime;
-		fallTime += 0.1;		
+		fallTime += (0.1 - (0.1/100*this.drag));		
 	}
 	
 	private void checkBouncing() {
@@ -69,7 +69,7 @@ public abstract class Entity {
 			fallTime = -10;
 	}
 	
-	public abstract void draw(Graphics g);
+	public abstract void draw(Graphics g, float scale);
 	
 		
 }

@@ -66,7 +66,7 @@ public abstract class Entity {
 	
 	public void jump() {
 		if (this.y == 800)
-			fallTime = -10;
+			fallTime = -(10 - (10/100*this.drag));
 	}
 	
 	public abstract void draw(Graphics g, float scale);

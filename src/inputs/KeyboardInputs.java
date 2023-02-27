@@ -28,6 +28,7 @@ public class KeyboardInputs implements KeyListener {
 			simPanel.getSim().getEntities(0).jump();
 			simPanel.getSim().getEntities(1).jump();
 			simPanel.getSim().getEntities(2).jump();
+			simPanel.getSim().getEntities(3).jump();
 		}
 	}
 

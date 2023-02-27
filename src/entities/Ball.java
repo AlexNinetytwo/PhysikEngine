@@ -24,11 +24,6 @@ public class Ball extends Entity{
 	}
 
 
-	@Override
-	protected void geoToOrigin() {
-		
-	}
-
 
 	@Override
 	protected void polyCords() {

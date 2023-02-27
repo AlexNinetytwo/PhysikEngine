@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import entities.Ball;
 import entities.Entity;
+import entities.RectangleClass;
 import entities.Triangle;
 import utilz.LoadSave;
 
@@ -41,14 +42,16 @@ public class Simulation implements Runnable{
 	// Initialize
 		
 	private void initClasses() {
-									//float x, float y, float width, float height, float drag, float bounce
-		Ball ball = new Ball(     		 500,      100,        30,          30,          0,            70);
-		Ball bigBall = new Ball(  		 600,      100,        60,          60,          0,            50);
-		Triangle triangle = new Triangle(500,      800,        60,          60,          100,            0);
-		entities = new Entity[3];
+													//float x, float y, float width, float height, float drag, float bounce
+		Ball ball = new Ball(							500,      100,        30,          30,          0,           70);
+		Ball bigBall = new Ball(						600,      100,        60,          60,          0,           50);
+		Triangle triangle = new Triangle(				500,      800,        60,          60,          10,          20);
+		RectangleClass rectangle = new RectangleClass(1920/2,      1080/2,        100,          100,     0     ,  20);
+		entities = new Entity[4];
 		entities[0] = ball;
 		entities[1] = bigBall;
 		entities[2] = triangle;
+		entities[3] = rectangle;
 	}
 	
 	

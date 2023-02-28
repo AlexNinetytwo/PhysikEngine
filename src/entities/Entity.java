@@ -1,6 +1,9 @@
 package entities;
 
 import java.awt.Graphics;
+import java.util.Vector;
+
+import utilz.Vec2;
 
 public abstract class Entity {
 
@@ -8,6 +11,8 @@ public abstract class Entity {
 	protected int width, height, originX, originY;
 	protected float fallTime = 0;
 	protected boolean bouncing = false;
+	protected double[] energy = {0, 0};
+	protected double gravityForce = 0;
 
 	
 	public Entity(float x, float y, int width, int height, float drag, float bounce) {
@@ -20,6 +25,10 @@ public abstract class Entity {
 		this.originX = this.width / 2;
 		this.originY = this.height / 2;
 	}
+	
+	public void data() {
+		System.out.println(fallTime);
+	}
 		
 	
 	public void update(float gravity) {
@@ -28,22 +37,30 @@ public abstract class Entity {
 		collision();
 		checkBouncing();
 		stopBouncing();
+		multiplayForces();
 	}
 	
 	
+	private void multiplayForces() {
+		energy[1] += gravityForce;
+		this.x += energy[0];
+		this.y += energy[1];
+	}
+
+
 	protected abstract void polyCords();
 	
 	private void stopBouncing() {
 		if (Math.abs(fallTime) < 0.25 && this.y > 795) {
 			fallTime = 0;
-			this.y = 800;
+			gravityForce = 0;
 		}
 		
 	}
 
 	private void fallDown(float gravity) {
-		this.y += gravity * fallTime;
-		fallTime += (0.1 - (0.1/100*this.drag));		
+//		this.y += gravity * fallTime;
+		gravityForce += gravity * 0.1;
 	}
 	
 	private void checkBouncing() {

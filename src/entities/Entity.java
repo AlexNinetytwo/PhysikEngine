@@ -10,9 +10,8 @@ public abstract class Entity {
 	protected float x, y, drag, bounce;
 	protected int width, height, originX, originY;
 	protected float fallTime = 0;
-	protected boolean bouncing = false;
-	protected double[] energy = {0, 0};
-	protected double gravityForce = 0;
+	protected double[] kineticEnergy = {0, 0};
+	protected double gravityForce;
 
 	
 	public Entity(float x, float y, int width, int height, float drag, float bounce) {
@@ -27,63 +26,49 @@ public abstract class Entity {
 	}
 	
 	public void data() {
-		System.out.println(fallTime);
+		System.out.println(String.format("x: %f, y: %f", kineticEnergy[0], kineticEnergy[1]));
 	}
 		
 	
 	public void update(float gravity) {
+		
+		gravityForce = gravity;
 		polyCords();
-		fallDown(gravity);
 		collision();
-		checkBouncing();
-		stopBouncing();
 		multiplayForces();
 	}
 	
-	
-	private void multiplayForces() {
-		energy[1] += gravityForce;
-		this.x += energy[0];
-		this.y += energy[1];
-	}
-
-
 	protected abstract void polyCords();
 	
-	private void stopBouncing() {
-		if (Math.abs(fallTime) < 0.25 && this.y > 795) {
-			fallTime = 0;
-			gravityForce = 0;
-		}
-		
+	
+	private void multiplayForces() {
+		kineticEnergy[0] -= (kineticEnergy[0]/this.drag);
+		kineticEnergy[1] += gravityForce;
+		this.x += kineticEnergy[0];
+		this.y += kineticEnergy[1];
 	}
 
-	private void fallDown(float gravity) {
-//		this.y += gravity * fallTime;
-		gravityForce += gravity * 0.1;
-	}
-	
-	private void checkBouncing() {
-		if (fallTime >= 0)
-			bouncing = false;
-	}
-	
+		
 	private void collision() {
-		if (this.y > 800 && !bouncing) {
+		if (this.y >= 800) {
+			this.y = 800;
 			bounceUp();
-		}
-			
+		}			
 	}
 	
 	private void bounceUp() {
-		fallTime = fallTime/ 102 * this.bounce;
-		fallTime *= -1;
-		bouncing = true;
+		
+		kineticEnergy[1] = kineticEnergy[1] / 100 * this.bounce;
+		kineticEnergy[1] = -kineticEnergy[1];
 	}
 	
+	
 	public void jump() {
-		if (this.y == 800)
-			fallTime = -(10 - (10/100*this.drag));
+		if (this.y >= 800) {
+			this.y = 799;
+			kineticEnergy[0] = 2;
+			kineticEnergy[1] = -30;
+		}
 	}
 	
 	public abstract void draw(Graphics g, float scale);

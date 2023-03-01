@@ -23,7 +23,7 @@ public class RunCode {
 			
 			repaintSimAndBalanceFrames(sim);
 			
-			print_FPS_and_UPS();
+//			print_FPS_and_UPS();
 		}
 	}
 	

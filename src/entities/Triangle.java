@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public class Triangle extends Entity{
 	
-	private float x2,xMid,y2;
+	private float xMid;
 
 	public Triangle(float x, float y, int width, int height, float drag, float bounce) {
 		super(x, y, width, height, drag, bounce);
@@ -30,4 +30,5 @@ public class Triangle extends Entity{
 		this.y2 = this.y - this.height;
 		
 	}
+	
 }

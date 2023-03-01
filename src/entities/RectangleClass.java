@@ -5,20 +5,27 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 public class RectangleClass extends Entity{
-	
-	
 
 	public RectangleClass(float x, float y, int width, int height, float drag, float bounce) {
 		super(x, y, width, height, drag, bounce);
 		
 	}
-
-	@Override
-	protected void polyCords() {
-		// TODO Auto-generated method stub
+	
+	public RectangleClass(float x, float y, int width, int height) {
+		super(x, y, width, height);
 		
 	}
 
+	@Override
+	protected void polyCords() {
+		
+		this.x1 = this.x - this.originX;
+		this.y1 = this.y - this.originY;
+		this.x2 = this.x + this.originX;
+		this.y2 = this.y + this.originY;
+	}
+
+	
 	@Override
 	public void draw(Graphics g, float scale) {
 		Graphics2D g2d = (Graphics2D)g;

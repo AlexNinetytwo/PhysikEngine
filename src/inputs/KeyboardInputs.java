@@ -27,8 +27,8 @@ public class KeyboardInputs implements KeyListener {
 			System.out.println("Space");
 			simPanel.getSim().getEntities(0).jump();
 			simPanel.getSim().getEntities(1).jump();
-			simPanel.getSim().getEntities(2).jump();
-			simPanel.getSim().getEntities(3).jump();
+//			simPanel.getSim().getEntities(2).jump();
+//			simPanel.getSim().getEntities(3).jump();
 		}
 	}
 

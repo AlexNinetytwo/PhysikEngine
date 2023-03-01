@@ -27,7 +27,10 @@ public class Ball extends Entity{
 
 	@Override
 	protected void polyCords() {
-		// TODO Auto-generated method stub
+		this.y1 = this.y - this.height/2;
+		this.x1 = this.x - this.width/2;
+		this.y2 = this.y + this.height/2;
+		this.x2 = this.x + this.width/2;
 		
 	}
 }

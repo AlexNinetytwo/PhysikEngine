@@ -21,12 +21,13 @@ public class Simulation implements Runnable{
 	private final int FPS_SET = 60;
 	private final int UPS_SET = 120;
 
-	public static final float WINSCALE = 0.5F;
+	public static final float WINSCALE = 0.8F;
 	public static final int SIM_WIDTH = (int) (1920 * WINSCALE);
 	public static final int SIM_HEIGHT = (int) (1080 * WINSCALE);
 	
 	public static final float GRAVITY = 1;
 	private Entity[] entities;
+	private Entity[] staticObjects;
 	
 
 	public Simulation() {
@@ -42,24 +43,30 @@ public class Simulation implements Runnable{
 	// Initialize
 		
 	private void initClasses() {
-													//float x, float y, float width, float height, float drag, float bounce
-		Ball ball = new Ball(							500,      100,        30,          30,          1000,           70);
-		Ball bigBall = new Ball(						600,      100,        60,          60,          500,           50);
-		Triangle triangle = new Triangle(				400,      700,       200,         200,          10,          20);
-		RectangleClass rectangle = new RectangleClass(1920/2,    1080/2,     100,         100,          10,           70); 
-		entities = new Entity[4];
+													//float x, float y, float width, float height, (float drag, float bounce)
+//		RectangleClass plane = new RectangleClass(  	1920/2,      200,        700,        10);
+		RectangleClass floor = new RectangleClass(  	1920/2,      900,        1900,        10);
+		
+		
+		Ball ball = new Ball(							500,      100,        30,          30,          1000,          70);
+		Ball bigBall = new Ball(						1000,      100,        60,          60,          500,           50);
+		
+//		Triangle triangle = new Triangle(				400,      700,       200,         200,          10,            20);
+//		RectangleClass rectangle = new RectangleClass(1920/2,    1080/2,     100,         100,          10,            70);
+		
+		staticObjects = new Entity[1];
+		staticObjects[0] = floor;
+//		staticObjects[1] = plane;
+		
+		entities = new Entity[2];
 		entities[0] = ball;
 		entities[1] = bigBall;
-		entities[2] = triangle;
-		entities[3] = rectangle;
+//		entities[2] = triangle;
+//		entities[3] = rectangle;
 	}
 	
 	
-	private BufferedImage loadImage(String fileName) {
-		
-		BufferedImage img = LoadSave.GetSpriteAtlas(fileName);
-		return img;
-	}
+
 	
 
 	private void startGameLoop() {
@@ -72,23 +79,30 @@ public class Simulation implements Runnable{
 	// Stuff for the loop
 	
 	public void update() {
-		for (int i = 0; i < entities.length; i++) {
-			entities[i].update(GRAVITY);
+		
+		
+		
+		for (Entity obj : entities) {
+			obj.update(GRAVITY);
+//			obj.checkCollision(entities);
+			obj.checkCollision(staticObjects);
 		}
+
 	}
 	
 	public void render(Graphics g) {
-		for (int i = 0; i < entities.length; i++) {
-			entities[i].draw(g, WINSCALE);
-		}
-	}
-	
-	private void renderBackground(Graphics g) {
+		
+		
+		
+		for (Entity obj : entities) 
+			obj.draw(g, WINSCALE);
+		
+		for (Entity obj : staticObjects)
+			obj.draw(g, WINSCALE);
 		
 	}
 	
 
-	
 	
 	
 	// Start the loop

@@ -10,6 +10,7 @@ public abstract class Entity {
 	protected float fallTime = 0;
 	protected double[] kineticEnergy = {0, 0};
 	protected double gravityForce;
+	protected boolean waitSwitch = false;
 	
 	public static float getRandomNumber(int min, int max) {
 		return (float) ((Math.random() * (max - min)) + min);
@@ -45,9 +46,16 @@ public abstract class Entity {
 	
 	public void update(float gravity) {
 		
+		setPreviousCords();
 		gravityForce = gravity;
-		polyCords();
 		multiplayForces();
+		
+	}
+	
+	protected void setPreviousCords() {
+		
+			this.oldX = this.x;
+			this.oldY = this.y;
 	}
 	
 	protected abstract void polyCords();
@@ -63,6 +71,8 @@ public abstract class Entity {
 		
 	public void checkCollision(Entity[] entities) {
 		
+		polyCords();
+		
 		for (Entity obj : entities) {
 			
 //			System.out.println(this.y + "   "+ obj.y2+" "+obj.y1);
@@ -70,28 +80,34 @@ public abstract class Entity {
 			if (obj == this)
 				continue;
 			
-			if (inBetween(obj.x1, this.x, obj.x2)) {
-				awareForCollision(obj);
+			if (inBetween(obj.x1, this.x1, this.x2, obj.x2)
+			&& inBetween(obj.y1, this.y1, this.y2, obj.y2)) {
+//				System.out.println("true");
+				if (kineticEnergy[1] > 0.1)
+					setToPreviousePosition();
+				bounceUp();
 				
 			}
 		}
-		
-		this.oldX = this.x;
-		this.oldY = this.y;
 	}
 	
-	protected void awareForCollision(Entity obj) {
+
+
+
+	protected void setToPreviousePosition() {
 		
-		if (this.y + this.height/2 >= obj.y1) {
-			this.y = this.oldY;
-			bounceUp();
-		}
+		this.x = this.oldX;
+		this.y = this.oldY;
 	}
 
 
-	private boolean inBetween(float value1, float between, float value2) {
-		if (value1 < between && between < value2)
+	private boolean inBetween(float otherObjCord_1, float thisObjCord_1, float thisObjCord_2, float otherObjCord_2) {
+		
+		if (otherObjCord_1 < thisObjCord_1 && thisObjCord_1 < otherObjCord_2)
 			return true;
+		if (otherObjCord_1 < thisObjCord_2 && thisObjCord_2 < otherObjCord_2)
+			return true;
+		
 		return false;
 	}
 	
@@ -110,6 +126,8 @@ public abstract class Entity {
 			
 			float randomY = Entity.getRandomNumber(-1, 1);
 			
+			this.y -= 10;
+			
 			kineticEnergy[0] += randomY;
 			kineticEnergy[1] = -30;
 		
@@ -124,7 +142,8 @@ public abstract class Entity {
 		float[][] cords = {
 				{this.x, this.y},
 				{this.x1, this.y1},
-				{this.x2, this.y2}
+				{this.x2, this.y2},
+				{this.oldX, this.oldY}
 		};
 		return cords;
 	}

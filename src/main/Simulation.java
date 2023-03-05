@@ -47,7 +47,7 @@ public class Simulation implements Runnable{
 	private void initClasses() {
 													//float x, float y, float width, float height, (float drag, float bounce)
 //		RectangleClass plane = new RectangleClass(  	1920/2,      200,        700,        10);
-		RectangleClass floor = new RectangleClass(  	1920/2,      900,        1900,        100);
+		RectangleClass floor = new RectangleClass(  	1920/2,      900,        1900,        10);
 		
 		
 		Ball ball = new Ball(							500,      100,        30,          30,          500,          70);

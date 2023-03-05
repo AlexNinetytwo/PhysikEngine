@@ -80,17 +80,61 @@ public abstract class Entity {
 			if (obj == this)
 				continue;
 			
-			if (inBetween(obj.x1, this.x1, this.x2, obj.x2)
-			&& inBetween(obj.y1, this.y1, this.y2, obj.y2)) {
+			if (collisionBetweenUpdates(obj, 10)) {
 //				System.out.println("true");
 				if (kineticEnergy[1] > 0.1)
 					setToPreviousePosition();
-				bounceUp();
-				
+					bounceUp();
 			}
 		}
 	}
 	
+	private boolean collisionBetweenUpdates(Entity obj, int steps) {
+		
+		float rangeX = this.x - this.oldX;
+		float rangeY = this.y - this.oldY;
+		
+		float stepX = rangeX / steps;
+		float stepY = rangeY / steps;
+		
+		float skippedX = this.oldX + stepX;
+		float skippedY = this.oldY + stepY;
+		
+		int stepCounter = 1;
+		
+		float [][] hitBox;
+		
+		while (stepCounter < steps) {
+
+			hitBox = calcHitBox(skippedX, skippedY);
+			
+			for (float[] cords : hitBox) {
+				
+				if (cordBetween(obj.x1, cords[0], obj.x2) && cordBetween(obj.y1, cords[1], obj.y2)) {
+//					System.out.println(obj.y1 + "   " + cords[1] + "   " + obj.y2);
+					return true;
+				}
+					
+			}
+			
+			stepCounter ++;
+			skippedX += stepX;
+			skippedY += stepY;
+		}
+		
+		return false;
+	}
+	
+	private float[][] calcHitBox(float x, float y) {
+		int w = this.width / 2;
+		int h = this.height / 2;
+		float[][] boxCords = {
+				{x - w, y - h},
+				{x + w, y + h}
+				};
+		return boxCords;
+	}
+		
 
 
 
@@ -101,13 +145,11 @@ public abstract class Entity {
 	}
 
 
-	private boolean inBetween(float otherObjCord_1, float thisObjCord_1, float thisObjCord_2, float otherObjCord_2) {
+	private boolean cordBetween(float otherObjCord_1, float thisObjCord, float otherObjCord_2) {
 		
-		if (otherObjCord_1 < thisObjCord_1 && thisObjCord_1 < otherObjCord_2)
+		if (otherObjCord_1 < thisObjCord && thisObjCord < otherObjCord_2) {
 			return true;
-		if (otherObjCord_1 < thisObjCord_2 && thisObjCord_2 < otherObjCord_2)
-			return true;
-		
+		}
 		return false;
 	}
 	
@@ -115,7 +157,7 @@ public abstract class Entity {
 		
 //		kineticEnergy[0] = kineticEnergy[0] / 100 * this.bounce;
 //		kineticEnergy[0] = -kineticEnergy[0];
-		
+
 		kineticEnergy[1] = kineticEnergy[1] / 100 * this.bounce;
 		kineticEnergy[1] = -kineticEnergy[1];
 	}
